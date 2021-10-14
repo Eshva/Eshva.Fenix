@@ -15,10 +15,7 @@ namespace Eshva.OpenApiAndMongoDb.Application
       _storage = storage;
     }
 
-    public Task<ProductLimitRevision> Execute(Guid productLimitRevisionId)
-    {
-      return _storage.GetById(productLimitRevisionId);
-    }
+    public Task<ProductLimitRevision> Execute(Guid productLimitRevisionId) => _storage.GetById(productLimitRevisionId);
 
     private readonly IProductLimitRevisionsStorage _storage;
   }

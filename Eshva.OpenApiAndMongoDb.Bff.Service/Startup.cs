@@ -2,11 +2,15 @@
 
 using Eshva.OpenApiAndMongoDb.Application;
 using Eshva.OpenApiAndMongoDb.Bff.Service.Infrastructure;
+using Eshva.OpenApiAndMongoDb.Models.ProductLimitPage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
+using NJsonSchema;
+using NJsonSchema.Converters;
+using NJsonSchema.Generation.TypeMappers;
 
 #endregion
 
@@ -24,7 +28,12 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc(options => options.EnableEndpointRouting = false)
-        .AddNewtonsoftJson(options => { options.SerializerSettings.Converters.Add(new StringEnumConverter()); });
+        .AddNewtonsoftJson(
+          options =>
+          {
+            options.SerializerSettings.Converters.Add(new StringEnumConverter());
+            options.SerializerSettings.Converters.Add(new JsonInheritanceConverter(typeof(Participant), "$type"));
+          });
       services.AddControllers();
       services.AddTransient<GetProductLimitPageDataById>();
       services.AddTransient<IProductLimitRevisionsStorage, MongoDbProductLimitRevisionsStorage>();
@@ -33,6 +42,22 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service
         {
           settings.DocumentName = "pages";
           settings.Title = "Business-user SPA pages data API";
+
+          var participantSchema = JsonSchema.FromType<Participant>();
+          participantSchema.Discriminator = "$type";
+
+          settings.SchemaGenerator.Settings.TypeMappers.Add(new ObjectTypeMapper(typeof(Participant), participantSchema));
+          settings.SchemaGenerator.Settings.TypeMappers.Add(
+            new ObjectTypeMapper(
+              typeof(LimitType),
+              new JsonSchema
+              {
+                Properties =
+                {
+                  { nameof(LimitType.Revolving), new JsonSchemaProperty { IsRequired = true } },
+                  { nameof(LimitType.ProductLimitType), new JsonSchemaProperty { IsRequired = true } }
+                }
+              }));
         });
     }
 

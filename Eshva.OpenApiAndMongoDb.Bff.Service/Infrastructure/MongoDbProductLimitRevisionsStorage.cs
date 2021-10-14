@@ -1,4 +1,4 @@
-﻿#region Usings
+#region Usings
 
 using System;
 using System.Threading.Tasks;
@@ -25,8 +25,7 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service.Infrastructure
         }
       };
 
-      return Task.FromResult<ProductLimitRevision>(revision);
-
+      return Task.FromResult(revision);
     }
 
     public Task Store(ProductLimitRevision productLimitRevision) => throw new NotImplementedException();
