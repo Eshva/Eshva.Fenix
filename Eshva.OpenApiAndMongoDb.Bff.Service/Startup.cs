@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Converters;
 
 #endregion
 
@@ -22,7 +23,8 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service
 
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddMvc(options => options.EnableEndpointRouting = false).AddNewtonsoftJson();
+      services.AddMvc(options => options.EnableEndpointRouting = false)
+        .AddNewtonsoftJson(options => { options.SerializerSettings.Converters.Add(new StringEnumConverter()); });
       services.AddControllers();
       services.AddTransient<GetProductLimitPageDataById>();
       services.AddTransient<IProductLimitRevisionsStorage, MongoDbProductLimitRevisionsStorage>();
