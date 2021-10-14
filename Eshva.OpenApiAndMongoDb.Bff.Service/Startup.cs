@@ -26,6 +26,12 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service
       services.AddControllers();
       services.AddTransient<GetProductLimitPageDataById>();
       services.AddTransient<IProductLimitRevisionsStorage, MongoDbProductLimitRevisionsStorage>();
+      services.AddOpenApiDocument(
+        settings =>
+        {
+          settings.DocumentName = "pages";
+          settings.Title = "Business-user SPA pages data API";
+        });
     }
 
     public void Configure(IApplicationBuilder application, IWebHostEnvironment environment)
@@ -34,6 +40,7 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service
       application.UseHttpsRedirection();
       application.UseRouting();
       application.UseAuthorization();
+      application.UseOpenApi(settings => settings.Path = "/api/{documentName}/swagger.json");
     }
   }
 }
