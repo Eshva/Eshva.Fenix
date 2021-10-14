@@ -1,9 +1,11 @@
-﻿#region Usings
+#region Usings
 
 using System;
 using System.Threading.Tasks;
 using Eshva.OpenApiAndMongoDb.Application;
+using Eshva.OpenApiAndMongoDb.Models;
 using Eshva.OpenApiAndMongoDb.Models.ProductLimitPage;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 #endregion
@@ -20,10 +22,20 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service.ProductLimit
     }
 
     [HttpGet("{productLimitRevisionId:guid}")]
-    public async Task<ActionResult<ProductLimitRevision>> GetPageDataById(Guid productLimitRevisionId)
+    [ProducesResponseType(typeof(ProductLimitRevisionPageDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Error), StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<ProductLimitRevisionPageDto>> GetPageDataById(Guid productLimitRevisionId)
     {
-      var pageData = await _getProductLimitPageDataByIdUseCase.Execute(productLimitRevisionId);
-      return Ok(pageData);
+      try
+      {
+        var pageData = await _getProductLimitPageDataByIdUseCase.Execute(productLimitRevisionId);
+        return Ok(pageData);
+      }
+      catch
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError, new Error { Message = "Server error.", Code = 787989 });
+      }
     }
 
     private readonly GetProductLimitPageDataById _getProductLimitPageDataByIdUseCase;

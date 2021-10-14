@@ -1,4 +1,4 @@
-﻿#region Usings
+#region Usings
 
 using System;
 using System.Threading.Tasks;
@@ -10,8 +10,8 @@ namespace Eshva.OpenApiAndMongoDb.Application
 {
   public interface IProductLimitRevisionsStorage
   {
-    Task<ProductLimitRevision> GetById(Guid productLimitRevisionId);
+    Task<ProductLimitRevisionPageDto> GetById(Guid productLimitRevisionId);
 
-    Task Store(ProductLimitRevision productLimitRevision);
+    Task Store(ProductLimitRevisionPageDto productLimitRevisionPageDto);
   }
 }

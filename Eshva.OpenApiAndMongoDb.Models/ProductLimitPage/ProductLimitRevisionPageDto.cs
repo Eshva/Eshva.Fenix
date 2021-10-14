@@ -6,7 +6,7 @@ using System;
 
 namespace Eshva.OpenApiAndMongoDb.Models.ProductLimitPage
 {
-  public class ProductLimitRevision
+  public class ProductLimitRevisionPageDto
   {
     public Guid Id;
     public LimitType LimitType;

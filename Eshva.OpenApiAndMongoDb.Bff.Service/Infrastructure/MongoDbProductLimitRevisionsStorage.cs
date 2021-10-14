@@ -11,9 +11,9 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service.Infrastructure
 {
   public class MongoDbProductLimitRevisionsStorage : IProductLimitRevisionsStorage
   {
-    public Task<ProductLimitRevision> GetById(Guid productLimitRevisionId)
+    public Task<ProductLimitRevisionPageDto> GetById(Guid productLimitRevisionId)
     {
-      var revision = new ProductLimitRevision
+      var revision = new ProductLimitRevisionPageDto
       {
         Id = productLimitRevisionId,
         LimitType = new LimitType { Revolving = Revolving.Revolving, ProductLimitType = ProductLimitType.Overdraft },
@@ -28,6 +28,6 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service.Infrastructure
       return Task.FromResult(revision);
     }
 
-    public Task Store(ProductLimitRevision productLimitRevision) => throw new NotImplementedException();
+    public Task Store(ProductLimitRevisionPageDto productLimitRevisionPageDto) => throw new NotImplementedException();
   }
 }
