@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eshva.OpenApiAndMongoDb.Models", "Eshva.OpenApiAndMongoDb.Models\Eshva.OpenApiAndMongoDb.Models.csproj", "{5F842616-C97C-4F5D-BF14-4F5B76131E8E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eshva.OpenApiAndMongoDb.Application", "Eshva.OpenApiAndMongoDb.Application\Eshva.OpenApiAndMongoDb.Application.csproj", "{51CF06F8-DEF0-4ACB-A020-99244E5D3FB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eshva.OpenApiAndMongoDb.Bff.Service", "Eshva.OpenApiAndMongoDb.Bff.Service\Eshva.OpenApiAndMongoDb.Bff.Service.csproj", "{29A4E622-C39E-4C02-9783-573899BB8D46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F842616-C97C-4F5D-BF14-4F5B76131E8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F842616-C97C-4F5D-BF14-4F5B76131E8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F842616-C97C-4F5D-BF14-4F5B76131E8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F842616-C97C-4F5D-BF14-4F5B76131E8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51CF06F8-DEF0-4ACB-A020-99244E5D3FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51CF06F8-DEF0-4ACB-A020-99244E5D3FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51CF06F8-DEF0-4ACB-A020-99244E5D3FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51CF06F8-DEF0-4ACB-A020-99244E5D3FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29A4E622-C39E-4C02-9783-573899BB8D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29A4E622-C39E-4C02-9783-573899BB8D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29A4E622-C39E-4C02-9783-573899BB8D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29A4E622-C39E-4C02-9783-573899BB8D46}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6C22A1B-8F7D-4D58-8187-ACCA024685BA}
+	EndGlobalSection
+EndGlobal
