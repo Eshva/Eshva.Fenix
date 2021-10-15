@@ -8,8 +8,12 @@ ENV ASPNETCORE_URLS=http://+:80
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 WORKDIR /src
-COPY ["Eshva.OpenApiAndMongoDb.Bff.Service/Eshva.OpenApiAndMongoDb.Bff.Service.csproj", "."]
+COPY "Eshva.OpenApiAndMongoDb.Bff.Service/Eshva.OpenApiAndMongoDb.Bff.Service.csproj" .
 RUN dotnet restore "Eshva.OpenApiAndMongoDb.Bff.Service.csproj"
+COPY "Eshva.OpenApiAndMongoDb.Application/Eshva.OpenApiAndMongoDb.Application.csproj" .
+RUN dotnet restore "Eshva.OpenApiAndMongoDb.Application.csproj"
+COPY "Eshva.OpenApiAndMongoDb.Models/Eshva.OpenApiAndMongoDb.Models.csproj" .
+RUN dotnet restore "Eshva.OpenApiAndMongoDb.Models.csproj"
 COPY . .
 WORKDIR "/src/Eshva.OpenApiAndMongoDb.Bff.Service"
 RUN dotnet build "Eshva.OpenApiAndMongoDb.Bff.Service.csproj" -c Release -o /app/build

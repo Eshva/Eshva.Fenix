@@ -2,7 +2,16 @@ apiVersion: skaffold/v2beta21
 kind: Config
 metadata:
   name: "OpenAPI and MongoDB proof of concepts"
+build:
+  artifacts:
+    - image: business-user-bff
+      context: .
+      docker:
+        dockerfile: service.dockerfile
 deploy:
+  kubectl:
+    manifests:
+      - service.resources.yaml
   helm:
     releases:
       - name: mongodb
@@ -18,3 +27,7 @@ portForward:
     resourceName: mongodb
     port: 27017
     localPort: 40001
+  - resourceType: Service
+    resourceName: business-user-bff
+    port: 443
+    localPort: 40101

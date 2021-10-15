@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: business-user-bff
+spec:
+  selector:
+    app: business-user-bff
+  ports:
+    - protocol: TCP
+      port: 443
+      targetPort: 443
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: business-user-bff
+  labels:
+    app: business-user-bff
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: business-user-bff
+  template:
+    metadata:
+      labels:
+        app: business-user-bff
+    spec:
+      containers:
+      - name: business-user-bff
+        image: business-user-bff
+        ports:
+        - containerPort: 443
