@@ -1,6 +1,7 @@
 #region Usings
 
 using Eshva.OpenApiAndMongoDb.Application;
+using Eshva.OpenApiAndMongoDb.Bff.Service.Bootstrapping;
 using Eshva.OpenApiAndMongoDb.Bff.Service.Infrastructure;
 using Eshva.OpenApiAndMongoDb.Models.ProductLimitPage;
 using Microsoft.AspNetCore.Builder;
@@ -20,20 +21,20 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service
   {
     public Startup(IConfiguration configuration)
     {
-      Configuration = configuration;
+      _configuration = configuration;
     }
-
-    public IConfiguration Configuration { get; }
 
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddSingleton(_configuration.GetSection(MongoConnectionConfiguration.Section).Get<MongoConnectionConfiguration>());
+      services.AddSingleton(_configuration.GetSection(DocumentCollectionsConfiguration.Section).Get<DocumentCollectionsConfiguration>());
+
       services
         .AddMvc(options => options.EnableEndpointRouting = false)
         .AddNewtonsoftJson(options => ConfigureJsonSerialization(options.SerializerSettings));
       services.AddControllers();
-      services.AddTransient<GetProductLimitPageDataById>();
       services.AddTransient<IProductLimitRevisionsStorage, MongoProductLimitRevisionsStorage>();
-      services.AddSingleton(new MongoClient(Configuration.GetSection("DocumentStorage")["ConnectionString"]));
+      services.AddSingleton(new MongoClient(_configuration.GetSection("DocumentStorage")["ConnectionString"]));
       services.AddOpenApiDocument(
         document =>
         {
@@ -42,6 +43,8 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service
           document.Version = "v1";
           document.Description = "Сервис получения данных для страниц SPA бизнес-пользователя.";
         });
+
+      services.AddTransient<GetProductLimitPageDataById>();
     }
 
     public void Configure(IApplicationBuilder application, IWebHostEnvironment environment)
@@ -57,5 +60,7 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service
       serializerSettings.Converters.Add(new StringEnumConverter());
       serializerSettings.Converters.Add(new JsonInheritanceConverter(typeof(Participant), "$type"));
     }
+
+    private readonly IConfiguration _configuration;
   }
 }

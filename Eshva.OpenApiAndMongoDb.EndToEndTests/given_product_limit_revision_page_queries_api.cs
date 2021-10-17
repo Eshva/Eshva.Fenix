@@ -6,9 +6,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Eshva.OpenApiAndMongoDb.EndToEndTests.Tools;
 using Eshva.OpenApiAndMongoDb.Models.ProductLimitPage;
-using FluentAssertions;
+using FluentAssertions.Json;
+using MongoDB.Driver;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using Xunit;
 using Random = Eshva.OpenApiAndMongoDb.EndToEndTests.Tools.Random;
 
@@ -24,29 +27,45 @@ namespace Eshva.OpenApiAndMongoDb.EndToEndTests
       HttpFixture http,
       DeploymentFixture deployment)
     {
-      _mongo = mongo.Context;
+      _mongo = mongo;
       _http = http.Client;
       _deploymentEndpoints = deployment.Endpoints;
 
       _productLimitRevisionPageId = Guid.NewGuid();
-      _collectionName = Random.String();
+      _metadata = Random.String();
       _testTimeout = new CancellationTokenSource(TimeSpan.FromSeconds(value: 10)).Token;
     }
 
     [Fact]
     public async Task when_request_page_data_by_id_it_should_return_data_with_expected_structure_and_content()
     {
-      var jsonDocumentSample = Samples.Pages.ProductLimitRevision.GetByIdResponse;
-      await GivenKnownPageDataPreparedInStorage(jsonDocumentSample);
+      var sample = PrepareSample(Samples.Pages.ProductLimitRevision.GetByIdResponse);
+      await GivenKnownPageDataPreparedInStorage(sample);
       var response = await WhenRequestKnownPageDataById();
-      await ItShouldRespondWithDocumentWithExpectedStructureAndContent(response, jsonDocumentSample);
+      await ItShouldRespondWithDocumentWithExpectedStructureAndContent(response, sample);
     }
 
-    private Task GivenKnownPageDataPreparedInStorage(string jsonDocumentSample)
+    private Task GivenKnownPageDataPreparedInStorage(string sample)
     {
-      var document = JsonConvert.DeserializeObject<ProductLimitRevisionPageDto>(jsonDocumentSample);
+      var document = JsonConvert.DeserializeObject<ProductLimitRevisionPageDto>(sample);
+      return _mongo.ProductLimitRevisionPagesCollection.InsertOneAsync(
+        document,
+        new InsertOneOptions(),
+        _testTimeout);
+    }
+
+    private string PrepareSample(string sample)
+    {
+      var document = JsonConvert.DeserializeObject<ProductLimitRevisionPageDto>(sample);
       document.Id = _productLimitRevisionPageId;
-      return _mongo.Store(_collectionName, document);
+      document.Metadata.Add("SomeMetadata", _metadata);
+      return JsonConvert.SerializeObject(
+        document,
+        new JsonSerializerSettings
+        {
+          Converters = new JsonConverter[] { new StringEnumConverter() },
+          ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() }
+        });
     }
 
     private Task<HttpResponseMessage> WhenRequestKnownPageDataById()
@@ -65,10 +84,10 @@ namespace Eshva.OpenApiAndMongoDb.EndToEndTests
       // TODO: Check other properties of response.
     }
 
-    private readonly string _collectionName;
     private readonly TestDeploymentEndpoints _deploymentEndpoints;
     private readonly HttpClient _http;
-    private readonly MongoTestContext _mongo;
+    private readonly string _metadata;
+    private readonly MongoFixture _mongo;
     private readonly Guid _productLimitRevisionPageId;
     private readonly CancellationToken _testTimeout;
   }

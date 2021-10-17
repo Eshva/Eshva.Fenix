@@ -42,11 +42,11 @@ spec:
           env:
             - name: SERVICE_DocumentStorage__ConnectionString
               value: "mongodb://mongodb:27017"
-            - name: SERVICE_DocumentStorage__Database
+            - name: SERVICE_DocumentStorage__DatabaseName
               value: "business-user-bff"
-            - name: SERVICE_DocumentStorage__ProductLimitRevisionPageCollection
-              value: "product-limit-revision-pages"
             - name: SERVICE_DocumentStorage__UserName
               value: "eshva"
             - name: SERVICE_DocumentStorage__Password
               value: "changeit"
+            - name: SERVICE_DocumentCollections__ProductLimitRevisionPages
+              value: "ProductLimitRevisionPages"

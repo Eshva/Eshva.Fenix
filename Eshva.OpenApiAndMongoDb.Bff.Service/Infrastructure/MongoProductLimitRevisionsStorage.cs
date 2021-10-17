@@ -1,9 +1,9 @@
 #region Usings
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Eshva.OpenApiAndMongoDb.Application;
+using Eshva.OpenApiAndMongoDb.Bff.Service.Bootstrapping;
 using Eshva.OpenApiAndMongoDb.Models.ProductLimitPage;
 using MongoDB.Driver;
 
@@ -13,31 +13,27 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service.Infrastructure
 {
   public class MongoProductLimitRevisionsStorage : IProductLimitRevisionsStorage
   {
-    public MongoProductLimitRevisionsStorage(MongoClient mongoClient)
+    public MongoProductLimitRevisionsStorage(
+      MongoClient mongoClient,
+      MongoConnectionConfiguration mongoConnectionConfiguration,
+      DocumentCollectionsConfiguration documentCollectionsConfiguration)
     {
       _mongoClient = mongoClient;
+      _databaseName = mongoConnectionConfiguration.DatabaseName;
+      _productLimitRevisionPages = documentCollectionsConfiguration.ProductLimitRevisionPages;
     }
 
     public Task<ProductLimitRevisionPageDto> GetById(Guid productLimitRevisionId)
     {
-      var revision = new ProductLimitRevisionPageDto
-      {
-        Metadata = new Dictionary<string, object>(),
-        Id = productLimitRevisionId,
-        LimitType = new LimitType { Revolving = Revolving.Revolving, ProductLimitType = ProductLimitType.Overdraft },
-        Participants = new Participant[]
-        {
-          new OtherOrganizationParticipant { ParticipantId = Guid.NewGuid(), IsBorrower = true, Name = "Miracle Inc." },
-          new PrivateIndividualParticipant
-            { ParticipantId = Guid.NewGuid(), IsBorrower = false, FirstName = "Merlin", FamilyName = "Bashirov" }
-        }
-      };
-
-      return Task.FromResult(revision);
+      var database = _mongoClient.GetDatabase(_databaseName);
+      var collection = database.GetCollection<ProductLimitRevisionPageDto>(_productLimitRevisionPages);
+      return collection.Find(document => document.Id.Equals(productLimitRevisionId)).SingleOrDefaultAsync();
     }
 
     public Task Store(ProductLimitRevisionPageDto productLimitRevisionPageDto) => throw new NotImplementedException();
 
+    private readonly string _databaseName;
     private readonly MongoClient _mongoClient;
+    private readonly string _productLimitRevisionPages;
   }
 }

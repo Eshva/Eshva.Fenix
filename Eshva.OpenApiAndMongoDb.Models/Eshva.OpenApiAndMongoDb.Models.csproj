@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="JsonKnownTypes" Version="0.5.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.11" />
+    <PackageReference Include="MongoDB.Bson" Version="2.13.2" />
     <PackageReference Include="NJsonSchema" Version="10.5.2" />
   </ItemGroup>
 
