@@ -1,0 +1,23 @@
+{
+  "id": "345d06ab-e16b-4ff9-82ba-22d1ab1bad27",
+  "limitType": {
+    "productLimitType": "Overdraft",
+    "revolving": "Revolving"
+  },
+  "participants": [
+    {
+      "name": "Miracle Inc.",
+      "isBorrower": true,
+      "participantId": "8facf1de-693f-4dec-b9e5-cf3d59dd58e9",
+      "$type": "OtherOrganizationParticipant"
+    },
+    {
+      "familyName": "Bashirov",
+      "firstName": "Merlin",
+      "isBorrower": false,
+      "participantId": "a5aad5b6-64e7-4689-8f7c-bd30dee9684e",
+      "$type": "PrivateIndividualParticipant"
+    }
+  ],
+  "metadata": {}
+}

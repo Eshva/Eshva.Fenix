@@ -1,12 +1,14 @@
 #region Usings
 
 using Eshva.OpenApiAndMongoDb.Application;
+using Eshva.OpenApiAndMongoDb.Bff.Service.Bootstrapping;
 using Eshva.OpenApiAndMongoDb.Bff.Service.Infrastructure;
 using Eshva.OpenApiAndMongoDb.Models.ProductLimitPage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema;
@@ -35,6 +37,7 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service
       services.AddControllers();
       services.AddTransient<GetProductLimitPageDataById>();
       services.AddTransient<IProductLimitRevisionsStorage, MongoDbProductLimitRevisionsStorage>();
+      services.AddSingleton(new MongoClient(Configuration.GetSection("DocumentStorage")["ConnectionString"]));
       services.AddOpenApiDocument(
         document =>
         {
@@ -49,6 +52,7 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service
 
           var schemaGeneratorSettings = new JsonSchemaGeneratorSettings{SerializerSettings = new JsonSerializerSettings()};
           ConfigureJsonSerialization(schemaGeneratorSettings.SerializerSettings);
+          MongoDbMapper.MapClasses();
 
           var limitTypeSchema = JsonSchema.FromType<LimitType>(schemaGeneratorSettings);
           limitTypeSchema.Properties[nameof(LimitType.Revolving)].IsRequired = true;
@@ -66,7 +70,7 @@ namespace Eshva.OpenApiAndMongoDb.Bff.Service
     public void Configure(IApplicationBuilder application, IWebHostEnvironment environment)
     {
       application.UseMvc();
-      application.UseHttpsRedirection();
+      // application.UseHttpsRedirection();
       application.UseRouting();
       application.UseAuthorization();
       application.UseOpenApi(settings => settings.Path = "/api/{documentName}/swagger.json");

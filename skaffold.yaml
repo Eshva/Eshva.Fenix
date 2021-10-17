@@ -12,11 +12,13 @@ deploy:
   kubectl:
     manifests:
       - service.resources.yaml
+
   helm:
     releases:
       - name: mongodb
         remoteChart: bitnami/mongodb
         setValues:
+          auth.enabled: false
           auth.username: eshva
           auth.password: changeit
           auth.database: admin
@@ -30,4 +32,8 @@ portForward:
   - resourceType: Service
     resourceName: business-user-bff
     port: 443
+    localPort: 40102
+  - resourceType: Service
+    resourceName: business-user-bff
+    port: 80
     localPort: 40101

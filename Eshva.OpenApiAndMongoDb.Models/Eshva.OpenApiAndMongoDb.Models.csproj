@@ -9,4 +9,9 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="JsonKnownTypes" Version="0.5.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.11" />
+  </ItemGroup>
+
 </Project>

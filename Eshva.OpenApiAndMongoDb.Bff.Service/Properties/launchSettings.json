@@ -3,9 +3,11 @@
   "profiles": {
     "Eshva.OpenApiAndMongoDb.Bff.Service": {
       "commandName": "Project",
-      "launchUrl": "weatherforecast",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SERVICE_DocumentStorage__ConnectionString": "mongodb://localhost:40101",
+        "SERVICE_DocumentStorage__Database": "business-user-bff",
+        "SERVICE_DocumentStorage__ProductLimitRevisionPageCollection": "product-limit-revision-pages"
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
