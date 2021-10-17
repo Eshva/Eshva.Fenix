@@ -28,12 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tools\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Eshva.OpenApiAndMongoDb.Bff.Service\Eshva.OpenApiAndMongoDb.Bff.Service.csproj" />
-    <ProjectReference Include="..\Eshva.OpenApiAndMongoDb.EndToEndTests.Samples\Eshva.OpenApiAndMongoDb.EndToEndTests.Samples.csproj" />
+    <ProjectReference
+      Include="..\Eshva.OpenApiAndMongoDb.EndToEndTests.Samples\Eshva.OpenApiAndMongoDb.EndToEndTests.Samples.csproj" />
     <ProjectReference Include="..\Eshva.OpenApiAndMongoDb.Models\Eshva.OpenApiAndMongoDb.Models.csproj" />
   </ItemGroup>
 

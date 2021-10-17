@@ -10,7 +10,7 @@
         "SERVICE_DocumentStorage__ProductLimitRevisionPageCollection": "product-limit-revision-pages"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      "applicationUrl": "https://localhost:40101"
     }
   }
 }

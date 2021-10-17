@@ -4,13 +4,13 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Eshva.OpenApiAndMongoDb.EndToEndTests.Tools;
 using Eshva.OpenApiAndMongoDb.Models.ProductLimitPage;
 using FluentAssertions;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RandomStringCreator;
 using Xunit;
+using Random = Eshva.OpenApiAndMongoDb.EndToEndTests.Tools.Random;
 
 #endregion
 
@@ -31,8 +31,6 @@ namespace Eshva.OpenApiAndMongoDb.EndToEndTests
       _productLimitRevisionPageId = Guid.NewGuid();
       _collectionName = Random.String();
       _testTimeout = new CancellationTokenSource(TimeSpan.FromSeconds(value: 10)).Token;
-
-      // MongoDbMapper.MapClasses(); // TODO: Do I need it?
     }
 
     [Fact]
@@ -46,12 +44,7 @@ namespace Eshva.OpenApiAndMongoDb.EndToEndTests
 
     private Task GivenKnownPageDataPreparedInStorage(string jsonDocumentSample)
     {
-      var document = JsonConvert.DeserializeObject<ProductLimitRevisionPageDto>(
-        jsonDocumentSample,
-        new JsonSerializerSettings
-        {
-          TypeNameHandling = TypeNameHandling.All
-        });
+      var document = JsonConvert.DeserializeObject<ProductLimitRevisionPageDto>(jsonDocumentSample);
       document.Id = _productLimitRevisionPageId;
       return _mongo.Store(_collectionName, document);
     }
@@ -78,102 +71,5 @@ namespace Eshva.OpenApiAndMongoDb.EndToEndTests
     private readonly MongoTestContext _mongo;
     private readonly Guid _productLimitRevisionPageId;
     private readonly CancellationToken _testTimeout;
-  }
-
-  public class DeploymentFixture
-  {
-    public TestDeploymentEndpoints Endpoints { get; set; } = new TestDeploymentEndpoints();
-  }
-
-  [CollectionDefinition(Name)]
-  public class PageQueriesCollection
-    : ICollectionFixture<MongoFixture>,
-      ICollectionFixture<HttpFixture>,
-      ICollectionFixture<DeploymentFixture>
-  {
-    public const string Name = "Page queries collection";
-  }
-
-  public class TestDeploymentEndpoints
-  {
-    public Uri BffUrl { get; } = new("http://localhost:40101");
-  }
-
-  public class MongoTestContext
-  {
-    public MongoTestContext(MongoConnectionConfiguration configuration)
-    {
-      var connectionSettings = MongoClientSettings.FromConnectionString(configuration.ConnectionString);
-      // connectionSettings.Credential = MongoCredential.CreateGssapiCredential(
-      //     configuration.UserName,
-      //     configuration.Password);
-      // connectionSettings.Credential = MongoCredential.CreateCredential(
-      //     "admin",
-      //     configuration.UserName,
-      //     configuration.Password);
-      // Configuration = configuration;
-      Client = new MongoClient(connectionSettings);
-      Database = Client.GetDatabase(configuration.DatabaseName);
-    }
-
-    public IMongoDatabase Database { get; }
-
-    public MongoClient Client { get; }
-
-    // public MongoConnectionConfiguration Configuration { get; }
-
-    public async Task Store<TDocument>(string collectionName, TDocument document)
-    {
-      await EnsureCollectionCreated(collectionName);
-    }
-
-    private Task EnsureCollectionCreated(string collectionName) => Database.CreateCollectionAsync(collectionName);
-  }
-
-  public class MongoConnectionConfiguration
-  {
-    public MongoConnectionConfiguration(
-      string connectionString,
-      string databaseName,
-      string userName,
-      string password)
-    {
-      ConnectionString = connectionString;
-      DatabaseName = databaseName;
-      UserName = userName;
-      Password = password;
-    }
-
-    public string ConnectionString { get; }
-
-    public string DatabaseName { get; }
-
-    public string UserName { get; }
-
-    public string Password { get; }
-  }
-
-  public class HttpFixture
-  {
-    public HttpClient Client { get; set; } = new HttpClient();
-  }
-
-  public class HttpContext { }
-
-  public class MongoFixture
-  {
-    public MongoFixture(MongoTestContext context)
-    {
-      Context = context;
-    }
-
-    public MongoTestContext Context { get; set; }
-  }
-
-  public static class Random
-  {
-    public static string String(int length = 10) => StringCreator.Get(length);
-
-    private static readonly StringCreator StringCreator = new(@"abcdefghijklmnopqrstuvwxyz");
   }
 }

@@ -11,9 +11,9 @@ using MongoDB.Driver;
 
 namespace Eshva.OpenApiAndMongoDb.Bff.Service.Infrastructure
 {
-  public class MongoDbProductLimitRevisionsStorage : IProductLimitRevisionsStorage
+  public class MongoProductLimitRevisionsStorage : IProductLimitRevisionsStorage
   {
-    public MongoDbProductLimitRevisionsStorage(MongoClient mongoClient)
+    public MongoProductLimitRevisionsStorage(MongoClient mongoClient)
     {
       _mongoClient = mongoClient;
     }

@@ -1,5 +1,6 @@
 #region Usings
 
+using Eshva.OpenApiAndMongoDb.EndToEndTests.Tools;
 using Microsoft.Extensions.DependencyInjection;
 
 #endregion
@@ -10,7 +11,12 @@ namespace Eshva.OpenApiAndMongoDb.EndToEndTests
   {
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddSingleton(new MongoConnectionConfiguration("mongodb://localhost:40001", "bff-database", "eshva", @"changeit"));
+      services.AddSingleton(
+        new MongoConnectionConfiguration(
+          "mongodb://localhost:40001",
+          "bff-database",
+          "eshva",
+          @"changeit"));
       services.AddTransient<MongoTestContext>();
     }
   }
