@@ -1,0 +1,39 @@
+apiVersion: skaffold/v2beta21
+kind: Config
+metadata:
+  name: "Eshva Fenix architecture prototype"
+build:
+  artifacts:
+    - image: business-user-bff
+      context: services/business-user-bff
+      docker:
+        dockerfile: business-user-bff.dockerfile
+deploy:
+  kubectl:
+    manifests:
+      - services/business-user-bff/business-user-bff.resources.yaml
+
+  helm:
+    releases:
+      - name: mongodb
+        remoteChart: bitnami/mongodb
+        setValues:
+          auth.enabled: false
+          auth.username: eshva
+          auth.password: changeit
+          auth.database: admin
+          auth.rootUser: admin
+          auth.rootPassword: admin
+portForward:
+  - resourceType: Service
+    resourceName: mongodb
+    port: 27017
+    localPort: 40001
+  - resourceType: Service
+    resourceName: business-user-bff
+    port: 443
+    localPort: 40102
+  - resourceType: Service
+    resourceName: business-user-bff
+    port: 80
+    localPort: 40101

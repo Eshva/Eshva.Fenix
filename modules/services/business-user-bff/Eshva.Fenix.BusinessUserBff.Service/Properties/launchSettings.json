@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Eshva.Fenix.BusinessUserBff.Service": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SERVICE_DocumentStorage__ConnectionString": "mongodb://localhost:40101",
+        "SERVICE_DocumentStorage__Database": "business-user-bff",
+        "SERVICE_DocumentStorage__ProductLimitRevisionPageCollection": "product-limit-revision-pages"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "https://localhost:40101"
+    }
+  }
+}
