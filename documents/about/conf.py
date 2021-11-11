@@ -100,14 +100,16 @@ html_static_path = ['.static']
 # to template names.
 #
 # https://pradyunsg.me/furo/customisation/
-html_sidebars = [
+html_sidebars = {
+    '**': [
     "sidebar/scroll-start.html",
     "sidebar/brand.html",
     "sidebar/search.html",
     "sidebar/navigation.html",
     "sidebar/ethical-ads.html",
     "sidebar/scroll-end.html",
-]
+    ]
+}
 
 
 # -- Options for HTMLHelp output ------------------------------------------
