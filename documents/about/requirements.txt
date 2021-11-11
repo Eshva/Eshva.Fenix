@@ -1,1 +1,1 @@
-karma_sphinx_theme==0.0.8
+furo==2021.10.9
