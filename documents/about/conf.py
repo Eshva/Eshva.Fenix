@@ -99,8 +99,7 @@ html_static_path = ['.static']
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #
-# This is required for the alabaster theme
-# refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
+# https://pradyunsg.me/furo/customisation/
 html_sidebars = [
     "sidebar/scroll-start.html",
     "sidebar/brand.html",
@@ -109,7 +108,6 @@ html_sidebars = [
     "sidebar/ethical-ads.html",
     "sidebar/scroll-end.html",
 ]
-}
 
 
 # -- Options for HTMLHelp output ------------------------------------------
