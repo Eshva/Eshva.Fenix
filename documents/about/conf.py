@@ -101,12 +101,14 @@ html_static_path = ['.static']
 #
 # This is required for the alabaster theme
 # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
-html_sidebars = {
-    '**': [
-        'relations.html',  # needs 'show_related': True theme option to display
-        'searchbox.html',
-        'localtoc.html'
-    ]
+#html_sidebars = [
+#    "sidebar/scroll-start.html",
+#    "sidebar/brand.html",
+#    "sidebar/search.html",
+#    "sidebar/navigation.html",
+#    "sidebar/ethical-ads.html",
+#    "sidebar/scroll-end.html",
+#]
 }
 
 
