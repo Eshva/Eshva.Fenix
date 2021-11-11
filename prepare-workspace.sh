@@ -14,8 +14,8 @@ function setLineEnding {
 function addPreCommitMessageHook {
     # Создание hook для первичного формирования комментария к коммиту. Будет добавляться ссылка на issue ID задачи в Jira.
     # ВНИМАНИЕ: Для того, чтобы это работало правильно, необходимо, чтобы имя ветки не содержало ничего кроме issue ID.
-    # Например, POEZD-34 допустимо, а POEZD-34-precommit-hook недопустимо.
-    # ВНИМАНИЕ: Данный скрипт написан для проекта (в Jira) POEZD. Если необходимо задействовать его для другого
+    # Например, FENIX-34 допустимо, а FENIX-34-precommit-hook недопустимо.
+    # ВНИМАНИЕ: Данный скрипт написан для проекта (в Jira) FENIX. Если необходимо задействовать его для другого
     # проекта, поменяйте переменную jiraProjectName.
 
     hook_file_name="$script_folder/.git/hooks/prepare-commit-msg"
@@ -36,7 +36,7 @@ then
         messageMatch=$( echo "$message" | grep -c "^$issueID" )
         if ! [ $messageMatch -gt 0 ]
         then
-            jiraProjectName="POEZD"
+            jiraProjectName="FENIX"
             messageMatch2=$( echo "$message" | grep -Ec '^$jiraProjectName\-[0-9]+' )
             if ! [ $messageMatch2 -gt 0 ]
             then
