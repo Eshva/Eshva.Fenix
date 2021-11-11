@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# eshva-fenix documentation build configuration file, created by
+# Eshva.Fenix documentation build configuration file, created by
 # sphinx-quickstart on Thu Nov 11 16:41:48 2021.
 #
 # This file is execfile()d with the current directory set to its
@@ -46,7 +46,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'eshva-fenix'
+project = 'Eshva.Fenix'
 copyright = '2021, Mike Eshva'
 author = 'Mike Eshva'
 
@@ -79,6 +79,8 @@ todo_include_todos = False
 
 
 # -- Options for HTML output ----------------------------------------------
+
+html_title = "Eshva.Fenix"
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -139,7 +141,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'eshva-fenix.tex', 'eshva-fenix Documentation',
+    (master_doc, 'eshva-fenix.tex', 'Eshva.Fenix Documentation',
      'Mike Eshva', 'manual'),
 ]
 
@@ -149,7 +151,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'eshva-fenix', 'eshva-fenix Documentation',
+    (master_doc, 'eshva-fenix', 'Eshva.Fenix Documentation',
      [author], 1)
 ]
 
@@ -160,7 +162,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'eshva-fenix', 'eshva-fenix Documentation',
+    (master_doc, 'eshva-fenix', 'Eshva.Fenix Documentation',
      author, 'eshva-fenix', 'One line description of project.',
      'Miscellaneous'),
 ]
