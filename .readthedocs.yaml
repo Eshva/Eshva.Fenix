@@ -6,8 +6,8 @@ build:
     python: "3.9"
 sphinx:
   builder: html
-  configuration: conf.py
+  configuration: documents/about/conf.py
   fail_on_warning: true
 python:
   install:
-    - requirements: requirements.txt
+    - requirements: documents/about/requirements.txt
