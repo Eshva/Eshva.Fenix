@@ -84,7 +84,7 @@ html_title = "Eshva.Fenix"
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
+# https://pradyunsg.me/furo/customisation/
 html_theme = 'furo'
 
 # Theme options are theme-specific and customize the look and feel of a theme
